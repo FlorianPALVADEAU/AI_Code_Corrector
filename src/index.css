@@ -44,4 +44,13 @@ pre {
   border-radius: 8px;
   padding: 18px 24px;
   margin: 12px 0;
+  color: "white";
+}
+
+li > code {
+  width: 100%;
+  background-color: black;
+  border-radius: 4px;
+  padding: 1px 4px;
+  color: rgb(176, 0, 0);
 }
