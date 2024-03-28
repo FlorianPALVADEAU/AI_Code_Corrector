@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 
 function ResponseChat({
@@ -7,6 +8,28 @@ function ResponseChat({
   message: string;
   loading: boolean;
 }) {
+  const messageRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (messageRef.current) {
+      const { children } = messageRef.current;
+      if (!children || children.length === 0) return;
+      console.log(children)
+      Array.from(children).forEach((child) => {
+        if (child.nodeName !== "PRE") return;
+        const btn = document.createElement('button');
+        btn.classList.add('copy-btn');
+        btn.innerHTML = 'Copy';
+        btn.onclick = () => {
+          navigator.clipboard.writeText(child?.textContent?.split('Copy')[0] || '');
+        };
+        (child as HTMLElement).style.cssText = `position: relative`;
+        btn.style.cssText = `display: flex; justify-content: center; align-items: center; position: absolute; right: 0; top: 0; padding: 0.5rem 1rem; background-color: #333; color: white; border: none; cursor: pointer;`;
+        child.appendChild(btn);
+      });
+      messageRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [message]);
   return (
     <div>
       {loading && (
@@ -34,7 +57,7 @@ function ResponseChat({
         </div>
       )}
       {!loading && (
-        <div className="w-full h-10  p-4 h-fit min-h-[80vh] mb-4 text-white">
+        <div className="w-full h-10  p-4 h-fit min-h-[80vh] mb-4 text-white" ref={messageRef}>
           <ReactMarkdown>{message}</ReactMarkdown>
         </div>
       )}
