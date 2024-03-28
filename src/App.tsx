@@ -6,8 +6,9 @@ import ReactMarkdown from "react-markdown";
 
 function App() {
   const [result, setResult] = useState(``);
-  const handleSendMessage = async (message: any) => {
+  const handleSendMessage = async (message: any, e: any) => {
     const fetchData = async () => {
+      e.preventDefault();
       try {
         const response = await fetch("http://localhost:8000/api/generate", {
           method: "POST",

@@ -5,8 +5,8 @@ import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 function Input({ onSendMessage }: any) {
   const [message, setMessage] = useState("");
 
-  const handleClick = () => {
-    onSendMessage(message);
+  const handleClick = (e: any) => {
+    onSendMessage(message, e);
     setMessage("");
   };
 
@@ -21,7 +21,7 @@ function Input({ onSendMessage }: any) {
           className="w-full px-4 py-2 h-12  min-h-12 rounded-s-xl text-neutral-600 outline-none focus:text-white focuse:outline-none text-base border border-gray-400 border-r-0 bg-transparent resize-none"
         ></textarea>
         <button
-          onClick={handleClick}
+          onClick={(e) => { handleClick(e)}}
           className="w-[100px] h-12 bg-green-700 rounded-e-xl border border-gray-400 hover:bg-green-800"
           type="submit"
         >
