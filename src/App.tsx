@@ -6,10 +6,12 @@ import ReactMarkdown from "react-markdown";
 
 function App() {
   const [result, setResult] = useState(``);
+  const [loading, setLoading] = useState(false);
   const handleSendMessage = async (message: any, e: any) => {
     const fetchData = async () => {
       e.preventDefault();
       try {
+        setLoading(true);
         const response = await fetch("http://localhost:8000/api/generate", {
           method: "POST",
           headers: {
@@ -24,6 +26,7 @@ function App() {
         if (!response.body || !response.ok) {
           throw new Error("Failed to fetch");
         }
+        setLoading(false);
 
         const reader = response.body.getReader();
 
@@ -31,18 +34,20 @@ function App() {
           const { done, value } = await reader.read();
 
           if (done) {
+            setResult((prevData) => {
+              console.log(prevData);
+              return prevData + ` \n\n---\n`;
+            });
             return;
           }
 
           const chunk = new TextDecoder().decode(value);
           const chunkParsed = JSON.parse(chunk);
 
-          // const formattedResponse = chunkParsed.response.replace(
-          //   /\n/g,
-          //   `<br />`
-          // );
-
-          setResult((prevData) => prevData + chunkParsed.response);
+          setResult((prevData) => {
+            console.log(prevData);
+            return prevData + chunkParsed.response;
+          });
 
           readStream();
         };
@@ -58,7 +63,7 @@ function App() {
   return (
     <div className="flex items-center justify-center w-full h-screen p-10 overflow-x-hidden">
       <div className="w-full max-w-[800px]">
-        <ResponseChat message={result} />
+        <ResponseChat message={result} loading={loading} />
 
         <Input onSendMessage={handleSendMessage} />
       </div>

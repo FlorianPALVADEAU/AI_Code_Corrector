@@ -54,3 +54,8 @@ li > code {
   padding: 1px 4px;
   color: rgb(176, 0, 0);
 }
+
+hr {
+  margin: 10px 0;
+  border-color: rgba(175, 175, 175, 0.2);
+}
