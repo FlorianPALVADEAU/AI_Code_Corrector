@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
-function Input({ onSendMessage }: any) {
+function Input({ onSendMessage, setMessage:setAppMessage }: any) {
   const [message, setMessage] = useState("");
 
   const handleClick = (e: any) => {
@@ -17,7 +17,10 @@ function Input({ onSendMessage }: any) {
           name="content"
           placeholder="Type a message..."
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={(e) => {
+            setMessage(e.target.value)
+            setAppMessage(e.target.value)
+          }}
           className="w-full px-4 py-2 h-12  min-h-12 rounded-s-xl text-neutral-600 outline-none focus:text-white focuse:outline-none text-base border border-gray-400 border-r-0 bg-transparent resize-none"
         ></textarea>
         <button
